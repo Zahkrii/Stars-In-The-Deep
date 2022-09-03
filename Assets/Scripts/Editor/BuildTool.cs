@@ -36,7 +36,7 @@ public class BuildTool : Editor
         // 文件信息列表，存储路径名称依赖文件等
         List<BundleInfo> bundleInfos = new List<BundleInfo>();
         // 从目录获取需要打包的资源文件名
-        string[] files = Directory.GetFiles(PathUtil.BundleResourcesPath, "*", SearchOption.AllDirectories);
+        string[] files = Directory.GetFiles(PathUtil.BuildResourcesPath, "*", SearchOption.AllDirectories);
         foreach (string file in files)
         {
             // 排除 meta 文件
@@ -52,7 +52,7 @@ public class BuildTool : Editor
             Debug.Log($"正在打包：{assetName}");
 #endif
             // 打包后的 bundle 名称，包含相对路径
-            string bundleName = fileName.Replace(PathUtil.BundleResourcesPath, "").ToLower().Substring(1);
+            string bundleName = fileName.Replace(PathUtil.BuildResourcesPath, "").ToLower().Substring(1);
             assetBundle.assetBundleName = bundleName + ".bundle";
             // 添加到资源列表
             assetBundleBuilds.Add(assetBundle);
@@ -92,7 +92,7 @@ public class BuildTool : Editor
     private static void SaveToFile(object data)
     {
         string path = Path.Combine(PathUtil.BundleOutputPath, Constant.FileListName);
-        byte[] bytes = Sirenix.Serialization.SerializationUtility.SerializeValue(data, DataFormat.JSON);
+        byte[] bytes = Sirenix.Serialization.SerializationUtility.SerializeValue(data, DataFormat.Binary);
 
         try
         {

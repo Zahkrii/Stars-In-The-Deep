@@ -10,10 +10,16 @@ namespace Framework.Utils
         public static readonly string AssetsPath = Application.dataPath;
 
         // 需要打包的资源目录
-        public static readonly string BundleResourcesPath = AssetsPath + "/BundleResources";
+        public static readonly string BuildResourcesPath = AssetsPath + "/BundleResources";
 
         // 打包资源输出目录
         public static readonly string BundleOutputPath = Application.streamingAssetsPath;
+
+        // 打包资源目录（如从远程地址或本地地址获取打包好的资源）
+        public static string BundleResourcesPath
+        {
+            get { return Application.streamingAssetsPath; }
+        }
 
         /// <summary>
         /// 从 Assets 绝对路径获取 Assets 相对路径

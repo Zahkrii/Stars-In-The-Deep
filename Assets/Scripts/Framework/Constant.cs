@@ -10,6 +10,6 @@ namespace Framework
     {
         public const string BundleExtension = ".bundle";
 
-        public const string FileListName = "file_list.json";
+        public const string FileListName = "manifest.bin";
     }
 }
