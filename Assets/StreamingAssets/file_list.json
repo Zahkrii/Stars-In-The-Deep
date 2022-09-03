@@ -1,0 +1,80 @@
+{
+    "$id": 0,
+    "$type": "0|System.Collections.Generic.List`1[[Framework.BundleInfo, Assembly-CSharp]], mscorlib",
+    "$rlength": 3,
+    "$rcontent": [
+        {
+            "$id": 1,
+            "$type": "1|Framework.BundleInfo, Assembly-CSharp",
+            "serializationData": {
+                "$type": "2|Sirenix.Serialization.SerializationData, Sirenix.Serialization",
+                "SerializedFormat": 0,
+                "SerializedBytes": null,
+                "ReferencedUnityObjects": null,
+                "SerializedBytesString": null,
+                "Prefab": null,
+                "PrefabModificationsReferencedUnityObjects": null,
+                "PrefabModifications": null,
+                "SerializationNodes": null
+            },
+            "AssetName": "Assets/BundleResources/Models/Prefabs/Cube.prefab",
+            "BundleName": "models/prefabs/cube.prefab",
+            "Dependency": {
+                "$id": 2,
+                "$type": "3|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+                "$rlength": 0,
+                "$rcontent": [
+                ]
+            }
+        },
+        {
+            "$id": 3,
+            "$type": 1,
+            "serializationData": {
+                "$type": 2,
+                "SerializedFormat": 0,
+                "SerializedBytes": null,
+                "ReferencedUnityObjects": null,
+                "SerializedBytesString": null,
+                "Prefab": null,
+                "PrefabModificationsReferencedUnityObjects": null,
+                "PrefabModifications": null,
+                "SerializationNodes": null
+            },
+            "AssetName": "Assets/BundleResources/UI/Prefabs/Image.prefab",
+            "BundleName": "ui/prefabs/image.prefab",
+            "Dependency": {
+                "$id": 4,
+                "$type": 3,
+                "$rlength": 1,
+                "$rcontent": [
+                    "Assets/BundleResources/UI/Resources/plant-big.png"
+                ]
+            }
+        },
+        {
+            "$id": 5,
+            "$type": 1,
+            "serializationData": {
+                "$type": 2,
+                "SerializedFormat": 0,
+                "SerializedBytes": null,
+                "ReferencedUnityObjects": null,
+                "SerializedBytesString": null,
+                "Prefab": null,
+                "PrefabModificationsReferencedUnityObjects": null,
+                "PrefabModifications": null,
+                "SerializationNodes": null
+            },
+            "AssetName": "Assets/BundleResources/UI/Resources/plant-big.png",
+            "BundleName": "ui/resources/plant-big.png",
+            "Dependency": {
+                "$id": 6,
+                "$type": 3,
+                "$rlength": 0,
+                "$rcontent": [
+                ]
+            }
+        }
+    ]
+}

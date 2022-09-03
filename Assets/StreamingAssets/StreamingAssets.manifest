@@ -1,0 +1,14 @@
+ManifestFileVersion: 0
+CRC: 195210073
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: models/prefabs/cube.prefab.bundle
+      Dependencies: {}
+    Info_1:
+      Name: ui/prefabs/image.prefab.bundle
+      Dependencies:
+        Dependency_0: ui/resources/plant-big.png.bundle
+    Info_2:
+      Name: ui/resources/plant-big.png.bundle
+      Dependencies: {}

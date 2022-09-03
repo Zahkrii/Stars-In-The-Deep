@@ -7,10 +7,18 @@ using System.Threading.Tasks;
 
 namespace Framework
 {
-    public class BundleInfo : SerializedScriptableObject
+    [Serializable]
+    public class BundleInfo
     {
         public string AssetName;
         public string BundleName;
         public List<string> Dependency;
+
+        public BundleInfo(string assetName, string bundleName, List<string> dependency)
+        {
+            AssetName = assetName;
+            BundleName = bundleName;
+            Dependency = dependency;
+        }
     }
 }
