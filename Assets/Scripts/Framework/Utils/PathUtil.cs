@@ -45,5 +45,40 @@ namespace Framework.Utils
                 return string.Empty;
             return path.Trim().Replace("\\", "/");
         }
+
+        public static string GetLuaPath(string name)
+        {
+            return $"Assets/BundleResources/LuaScripts/{name}.bytes";
+        }
+
+        public static string GetUIPath(string name)
+        {
+            return $"Assets/BundleResources/UI/Prefabs/{name}.prefab";
+        }
+
+        public static string GetMusicPath(string name, string extension)
+        {
+            return $"Assets/BundleResources/Audio/Music/{name}.{extension}";
+        }
+
+        public static string GetSoundPath(string name, string extension)
+        {
+            return $"Assets/BundleResources/Audio/Sounds/{name}.{extension}";
+        }
+
+        public static string GetEffectPath(string name)
+        {
+            return $"Assets/BundleResources/Effect/Prefabs/{name}.prefab";
+        }
+
+        public static string GetSpritePath(string name, string extension)
+        {
+            return $"Assets/BundleResources/Sprites/{name}.{extension}";
+        }
+
+        public static string GetScenePath(string name)
+        {
+            return $"Assets/BundleResources/Scene/{name}.unity";
+        }
     }
 }

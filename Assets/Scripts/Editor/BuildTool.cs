@@ -59,7 +59,7 @@ public class BuildTool : Editor
 
             // 获取依赖文件信息
             List<string> dependencies = GetDependency(assetName);
-            BundleInfo bundleInfo = new BundleInfo(assetName, bundleName, dependencies);
+            BundleInfo bundleInfo = new BundleInfo(assetName, bundleName + ".bundle", dependencies);
             bundleInfos.Add(bundleInfo);
         }
         // 清空目录
