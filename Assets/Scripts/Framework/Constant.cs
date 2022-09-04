@@ -12,4 +12,15 @@ namespace Framework
 
         public const string FileListName = "manifest.bin";
     }
+
+    public enum AssetType
+    {
+        UI,
+        Lua,
+        Music,
+        Sound,
+        Effect,
+        Sprite,
+        Scene
+    }
 }

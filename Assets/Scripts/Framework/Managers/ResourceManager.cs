@@ -31,9 +31,50 @@ namespace Framework.Manager
             }
         }
 
-        public void LoadAsset(string assetName, Action<UObject> action)
+        public void LoadAsset(string assetName, AssetType type, Action<UObject> action = null)
         {
-            StartCoroutine(LoadBundleAsync(assetName, action));
+            switch (type)
+            {
+                case AssetType.UI:
+                    StartCoroutine(LoadBundleAsync(PathUtil.GetUIPath(assetName), action));
+                    break;
+
+                case AssetType.Lua:
+                    StartCoroutine(LoadBundleAsync(PathUtil.GetLuaPath(assetName), action));
+                    break;
+
+                case AssetType.Effect:
+                    StartCoroutine(LoadBundleAsync(PathUtil.GetEffectPath(assetName), action));
+                    break;
+
+                case AssetType.Scene:
+                    StartCoroutine(LoadBundleAsync(PathUtil.GetScenePath(assetName), action));
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        public void LoadAsset(string assetName, AssetType type, string extension, Action<UObject> action = null)
+        {
+            switch (type)
+            {
+                case AssetType.Music:
+                    StartCoroutine(LoadBundleAsync(PathUtil.GetMusicPath(assetName,extension), action));
+                    break;
+
+                case AssetType.Sound:
+                    StartCoroutine(LoadBundleAsync(PathUtil.GetSoundPath(assetName, extension), action));
+                    break;
+
+                case AssetType.Sprite:
+                    StartCoroutine(LoadBundleAsync(PathUtil.GetSpritePath(assetName, extension), action));
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         /// <summary>
@@ -71,7 +112,7 @@ namespace Framework.Manager
         public void Start()
         {
             ParseVersionFile();
-            LoadAsset("Assets/BundleResources/UI/Prefabs/Image.prefab", OnComplete);
+            LoadAsset("Image", AssetType.UI, OnComplete);
         }
 
         private void OnComplete(UObject obj)
