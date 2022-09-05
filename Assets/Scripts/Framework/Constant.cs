@@ -11,6 +11,8 @@ namespace Framework
         public const string BundleExtension = ".bundle";
 
         public const string FileListName = "manifest.bin";
+
+        public static AssetsLoadMode AssetsLoadMode = AssetsLoadMode.InEditor;
     }
 
     public enum AssetType
@@ -22,5 +24,12 @@ namespace Framework
         Effect,
         Sprite,
         Scene
+    }
+
+    public enum AssetsLoadMode
+    {
+        InEditor,
+        PackageBundle,
+        Update
     }
 }

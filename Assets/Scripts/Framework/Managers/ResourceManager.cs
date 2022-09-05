@@ -6,6 +6,7 @@ using Framework.Utils;
 using System;
 using Sirenix.Serialization;
 using UObject = UnityEngine.Object;
+using UnityEditor;
 
 namespace Framework.Manager
 {
@@ -23,7 +24,7 @@ namespace Framework.Manager
 
             byte[] bytes = File.ReadAllBytes(path);
 
-            List<BundleInfo> bundleInfolist = SerializationUtility.DeserializeValue<List<BundleInfo>>(bytes, DataFormat.Binary);
+            List<BundleInfo> bundleInfolist = Sirenix.Serialization.SerializationUtility.DeserializeValue<List<BundleInfo>>(bytes, DataFormat.Binary);
 
             foreach (BundleInfo info in bundleInfolist)
             {
@@ -31,6 +32,37 @@ namespace Framework.Manager
             }
         }
 
+        /// <summary>
+        /// 编辑器环境加载资源
+        /// </summary>
+        /// <param name="assetName">资源名</param>
+        /// <param name="action">回调</param>
+        public void LoadAssetInEditorMode(string assetName, Action<UObject> action = null)
+        {
+            Debug.Log("现在是编辑器资源加载模式");
+            UObject obj = AssetDatabase.LoadAssetAtPath(assetName, typeof(UObject));
+            if (obj == null)
+                Debug.LogError($"资源不存在：{assetName}");
+            action?.Invoke(obj);
+        }
+
+        /// <summary>
+        /// 加载资源（编辑器模式）
+        /// </summary>
+        /// <param name="assetName">资源名</param>
+        /// <param name="action">回调函数</param>
+        public void LoadAsset(string assetName, Action<UObject> action = null)
+        {
+            if (Constant.AssetsLoadMode == AssetsLoadMode.InEditor)
+                LoadAssetInEditorMode(assetName, action);
+        }
+
+        /// <summary>
+        /// 加载资源
+        /// </summary>
+        /// <param name="assetName">资源名</param>
+        /// <param name="type">资源类型</param>
+        /// <param name="action">回调函数</param>
         public void LoadAsset(string assetName, AssetType type, Action<UObject> action = null)
         {
             switch (type)
@@ -56,12 +88,19 @@ namespace Framework.Manager
             }
         }
 
-        public void LoadAsset(string assetName, AssetType type, string extension, Action<UObject> action = null)
+        /// <summary>
+        /// 加载资源（带扩展名）
+        /// </summary>
+        /// <param name="assetName">资源名</param>
+        /// <param name="extension">资源扩展名</param>
+        /// <param name="type">资源类型</param>
+        /// <param name="action">回调函数</param>
+        public void LoadAsset(string assetName, string extension, AssetType type, Action<UObject> action = null)
         {
             switch (type)
             {
                 case AssetType.Music:
-                    StartCoroutine(LoadBundleAsync(PathUtil.GetMusicPath(assetName,extension), action));
+                    StartCoroutine(LoadBundleAsync(PathUtil.GetMusicPath(assetName, extension), action));
                     break;
 
                 case AssetType.Sound:
@@ -102,6 +141,7 @@ namespace Framework.Manager
             AssetBundleRequest bundleRequest = request.assetBundle.LoadAssetAsync(assetName);
             yield return bundleRequest;
 
+            Debug.Log("现在是 Bundle 资源加载模式");
             //if (action != null && bundleRequest != null)
             //{
             //    action.Invoke(bundleRequest.asset);

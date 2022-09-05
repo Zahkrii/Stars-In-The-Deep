@@ -18,7 +18,14 @@ namespace Framework.Utils
         // 打包资源目录（如从远程地址或本地地址获取打包好的资源）
         public static string BundleResourcesPath
         {
-            get { return Application.streamingAssetsPath; }
+            get
+            {
+                // 如果是热更模式就从 persistentDataPath 加载（资源 Bundle 都会下载到这个目录）
+                if (Constant.AssetsLoadMode == AssetsLoadMode.Update)
+                    return Application.persistentDataPath;
+                // Package Bundle 模式，从自己包里的 streamingAssetsPath（只读）加载
+                return Application.streamingAssetsPath;
+            }
         }
 
         /// <summary>
