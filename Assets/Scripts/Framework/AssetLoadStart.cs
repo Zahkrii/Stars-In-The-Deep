@@ -10,5 +10,6 @@ public class AssetLoadStart : MonoBehaviour
     private void Awake()
     {
         Constant.AssetsLoadMode = loadMode;
+        DontDestroyOnLoad(this);
     }
 }

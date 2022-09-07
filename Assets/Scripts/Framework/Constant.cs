@@ -12,6 +12,9 @@ namespace Framework
 
         public const string FileListName = "manifest.bin";
 
+        // 热更资源地址
+        public const string ResourceURL = "http://127.0.0.1/AssetBundles";
+
         public static AssetsLoadMode AssetsLoadMode = AssetsLoadMode.InEditor;
     }
 
@@ -30,6 +33,6 @@ namespace Framework
     {
         InEditor,
         PackageBundle,
-        Update
+        HotUpdate
     }
 }

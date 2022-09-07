@@ -1,18 +1,29 @@
+using Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Manager : MonoBehaviour
+namespace Framework
 {
-    private static LuaManager luaManager;
-
-    public static LuaManager LuaManager
+    public class Manager : MonoBehaviour
     {
-        get { return luaManager; }
-    }
+        private static ResourceManager _resourceManager;
+        private static LuaManager _luaManager;
 
-    private void Awake()
-    {
-        luaManager = this.gameObject.AddComponent<LuaManager>();
+        public static ResourceManager resourceManager
+        {
+            get { return _resourceManager; }
+        }
+
+        public static LuaManager luaManager
+        {
+            get { return _luaManager; }
+        }
+
+        private void Awake()
+        {
+            _resourceManager = this.gameObject.AddComponent<ResourceManager>();
+            _luaManager = this.gameObject.AddComponent<LuaManager>();
+        }
     }
 }

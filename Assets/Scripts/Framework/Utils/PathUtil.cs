@@ -15,16 +15,22 @@ namespace Framework.Utils
         // 打包资源输出目录
         public static readonly string BundleOutputPath = Application.streamingAssetsPath;
 
+        // 资源只读目录
+        public static readonly string ReadOnlyPath = Application.streamingAssetsPath;
+
+        // 资源可读写目录
+        public static readonly string ReadAndWritePath = Application.persistentDataPath;
+
         // 打包资源目录（如从远程地址或本地地址获取打包好的资源）
         public static string BundleResourcesPath
         {
             get
             {
                 // 如果是热更模式就从 persistentDataPath 加载（资源 Bundle 都会下载到这个目录）
-                if (Constant.AssetsLoadMode == AssetsLoadMode.Update)
-                    return Application.persistentDataPath;
+                if (Constant.AssetsLoadMode == AssetsLoadMode.HotUpdate)
+                    return ReadAndWritePath;
                 // Package Bundle 模式，从自己包里的 streamingAssetsPath（只读）加载
-                return Application.streamingAssetsPath;
+                return ReadOnlyPath;
             }
         }
 
