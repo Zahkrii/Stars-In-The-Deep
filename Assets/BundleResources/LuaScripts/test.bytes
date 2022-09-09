@@ -1,0 +1,5 @@
+function Test()
+    print("Hello Lua");
+end
+
+Test();

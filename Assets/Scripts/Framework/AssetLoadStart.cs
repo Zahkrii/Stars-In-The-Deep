@@ -11,5 +11,11 @@ public class AssetLoadStart : MonoBehaviour
     {
         Constant.AssetsLoadMode = loadMode;
         DontDestroyOnLoad(this);
+
+        Manager.resourceManager.ParseVersionFile();
+        Manager.luaManager.Init(() =>
+        {
+            Manager.luaManager.ExecuteLua("test");
+        });
     }
 }

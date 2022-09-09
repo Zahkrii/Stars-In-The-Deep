@@ -21,6 +21,9 @@ namespace Framework.Utils
         // 资源可读写目录
         public static readonly string ReadAndWritePath = Application.persistentDataPath;
 
+        // lua 脚本目录
+        public static readonly string LuaPath = AssetsPath + "/BundleResources/LuaScripts";
+
         // 打包资源目录（如从远程地址或本地地址获取打包好的资源）
         public static string BundleResourcesPath
         {
