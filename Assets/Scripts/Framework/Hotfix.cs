@@ -11,7 +11,7 @@ using UObject = UnityEngine.Object;
 
 namespace Framework
 {
-    public class HotUpdate : MonoBehaviour
+    public class Hotfix : MonoBehaviour
     {
         private byte[] fileListData;
 
