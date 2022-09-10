@@ -74,10 +74,10 @@ public class LuaManager : MonoBehaviour
 
     private byte[] LuaLoader(ref string name)
     {
-        return getLuaScript(name);
+        return GetLuaScript(name);
     }
 
-    private byte[] getLuaScript(string name)
+    public byte[] GetLuaScript(string name)
     {
         // require ui.register => ui/register
         name = name.Replace(".", "/");
@@ -86,7 +86,8 @@ public class LuaManager : MonoBehaviour
         byte[] luaScript = null;
         // 查找字典里是否存在脚本
         if (!luaScriptCache.TryGetValue(path, out luaScript))
-            Debug.Log("lua script does not exist: " + path);
+            Debug.LogError("lua script does not exist: " + path);
+        //Debug.Log("lua script: " + path);
         return luaScript;
     }
 
@@ -98,7 +99,7 @@ public class LuaManager : MonoBehaviour
         // 循环待加载列表
         foreach (string name in LuaNames)
         {
-            Manager.resourceManager.LoadAsset(name, AssetType.Lua, (UnityEngine.Object obj) =>
+            Manager.ResourceManager.LoadAsset(name, AssetType.Lua, (UnityEngine.Object obj) =>
             {
                 AddLuaScript(name, (obj as TextAsset).bytes);
                 if (luaScriptCache.Count >= LuaNames.Count) //加载完成
@@ -131,6 +132,7 @@ public class LuaManager : MonoBehaviour
             byte[] file = File.ReadAllBytes(fileName);
             AddLuaScript(PathUtil.GetUnityRelativePath(fileName), file);
         }
+        initComplete?.Invoke();
     }
 
 #endif

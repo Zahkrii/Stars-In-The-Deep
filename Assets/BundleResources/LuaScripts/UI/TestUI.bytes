@@ -1,0 +1,15 @@
+function OnInit()
+    print("OnInit");
+end
+
+function OnOpen()
+    print("OnOpen");
+end
+
+function Update()
+    print("Update");
+end
+
+function OnClose()
+    print("OnClose");
+end

@@ -30,7 +30,7 @@ public class ResourceManager : MonoBehaviour
 
             // 如果是lua脚本，则添加到管理器
             if (info.AssetName.IndexOf("LuaScripts") > 0)
-                Manager.luaManager.LuaNames.Add(info.AssetName);
+                Manager.LuaManager.LuaNames.Add(info.AssetName);
         }
     }
 
@@ -44,7 +44,7 @@ public class ResourceManager : MonoBehaviour
     public void LoadAssetInEditorMode(string assetName, Action<UObject> action = null)
     {
         Debug.Log("现在是编辑器资源加载模式");
-        UObject obj = UnityEditor.AssetDatabase.LoadAssetAtPath(assetName, typeof(UObject));
+        UObject obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetUIPath(assetName), typeof(UObject));
         if (obj == null)
             Debug.LogError($"资源不存在：{assetName}");
         action?.Invoke(obj);

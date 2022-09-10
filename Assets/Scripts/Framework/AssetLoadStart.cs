@@ -12,10 +12,12 @@ public class AssetLoadStart : MonoBehaviour
         Constant.AssetsLoadMode = loadMode;
         DontDestroyOnLoad(this);
 
-        Manager.resourceManager.ParseVersionFile();
-        Manager.luaManager.Init(() =>
+        Manager.ResourceManager.ParseVersionFile();
+        Manager.LuaManager.Init(() =>
         {
-            Manager.luaManager.ExecuteLua("test");
+            Manager.LuaManager.ExecuteLua("test");
+            XLua.LuaFunction function = Manager.LuaManager.LuaEnvironment.Global.Get<XLua.LuaFunction>("Test");
+            function.Call();
         });
     }
 }

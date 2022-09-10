@@ -130,8 +130,8 @@ namespace Framework
 
         private void EnterGame()
         {
-            Manager.resourceManager.ParseVersionFile();
-            Manager.resourceManager.LoadAsset("Image", AssetType.UI, OnComplete);
+            Manager.ResourceManager.ParseVersionFile();
+            Manager.ResourceManager.LoadAsset("Image", AssetType.UI, OnComplete);
         }
 
         private void OnComplete(UObject obj)

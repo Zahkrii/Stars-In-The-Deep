@@ -1,5 +1,17 @@
+Manager = CS.Framework.Manager;
+
+local group =
+{
+    "1st",
+    "2nd",
+    "3rd"
+}
+
+Manager.UIManager:SetUIGroup(group);
+
 function Test()
     print("Hello Lua");
+    Manager.UIManager:OpenUI("Image", "1st", "UI.TestUI");
 end
 
-Test();
+--Test();
