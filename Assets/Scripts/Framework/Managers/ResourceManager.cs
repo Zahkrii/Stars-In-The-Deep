@@ -42,10 +42,35 @@ namespace Framework.Managers
         /// </summary>
         /// <param name="assetName">资源名</param>
         /// <param name="action">回调</param>
-        public void LoadAssetInEditorMode(string assetName, Action<UObject> action = null)
+        public void LoadAssetInEditorMode(string assetName, AssetType type, Action<UObject> action = null)
         {
             Debug.Log("现在是编辑器资源加载模式");
-            UObject obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetUIPath(assetName), typeof(UObject));
+            UObject obj = null;
+            switch (type)
+            {
+                case AssetType.UI:
+                    obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetUIPath(assetName), typeof(UObject));
+                    break;
+
+                case AssetType.Lua:
+                    obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetLuaPath(assetName), typeof(UObject));
+                    break;
+
+                case AssetType.Effect:
+                    obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetEffectPath(assetName), typeof(UObject));
+                    break;
+
+                case AssetType.Scene:
+                    obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetScenePath(assetName), typeof(UObject));
+                    break;
+
+                case AssetType.Prefab:
+                    obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetPrefabPath(assetName), typeof(UObject));
+                    break;
+
+                default:
+                    break;
+            }
             if (obj == null)
                 Debug.LogError($"资源不存在：{assetName}");
             action?.Invoke(obj);
@@ -89,7 +114,7 @@ namespace Framework.Managers
             else
             {
                 // 加载资源（编辑器模式）
-                LoadAssetInEditorMode(assetName, action);
+                LoadAssetInEditorMode(assetName, type, action);
             }
 #endif
         }
@@ -127,7 +152,7 @@ namespace Framework.Managers
             else
             {
                 // 加载资源（编辑器模式）
-                LoadAssetInEditorMode(assetName, action);
+                LoadAssetInEditorMode(assetName, type, action);
             }
 #endif
         }

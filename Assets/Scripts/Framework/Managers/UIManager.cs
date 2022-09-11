@@ -35,12 +35,12 @@ namespace Framework.Managers
             }
         }
 
-        public Transform GetUIGroup(string groupName)
+        private Transform GetUIGroup(string groupName)
         {
             if (!UIGroups.ContainsKey(groupName))
             {
                 Debug.LogError("找不到 " + groupName);
-                return null;
+                return root;
             }
             return UIGroups[groupName];
         }
@@ -64,11 +64,12 @@ namespace Framework.Managers
             Manager.ResourceManager.LoadAsset(uiName, AssetType.UI, (UnityEngine.Object obj) =>
             {
                 ui = Instantiate(obj) as GameObject;
-                UICache.Add(uiName, ui);
 
                 // 设置UI层级
                 Transform parent = GetUIGroup(groupName);
                 ui.transform.SetParent(parent, false);
+
+                UICache.Add(uiName, ui);
 
                 UIBehaviour uiBehaviour = ui.AddComponent<UIBehaviour>();
                 //调用init

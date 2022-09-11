@@ -96,5 +96,10 @@ namespace Framework.Utils
         {
             return $"Assets/BundleResources/Scene/{name}.unity";
         }
+
+        public static string GetPrefabPath(string name)
+        {
+            return $"Assets/BundleResources/Prefabs/{name}.prefab";
+        }
     }
 }
