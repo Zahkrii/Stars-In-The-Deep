@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Framework
+namespace Framework.Managers
 {
     public class Manager : MonoBehaviour
     {
         private static ResourceManager _resourceManager;
         private static LuaManager _luaManager;
         private static UIManager _uiManager;
+        private static EntityManager _entityManager;
 
         public static ResourceManager ResourceManager
         {
@@ -26,11 +27,17 @@ namespace Framework
             get { return _uiManager; }
         }
 
+        public static EntityManager EntityManager
+        {
+            get { return _entityManager; }
+        }
+
         private void Awake()
         {
             _resourceManager = this.gameObject.AddComponent<ResourceManager>();
             _luaManager = this.gameObject.AddComponent<LuaManager>();
             _uiManager = this.gameObject.AddComponent<UIManager>();
+            _entityManager = this.gameObject.AddComponent<EntityManager>();
         }
     }
 }

@@ -33,6 +33,6 @@ namespace Framework
     {
         InEditor,
         PackageBundle,
-        HotUpdate
+        Hotfix
     }
 }

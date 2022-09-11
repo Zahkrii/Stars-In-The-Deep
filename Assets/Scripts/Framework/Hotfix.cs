@@ -1,3 +1,4 @@
+using Framework.Managers;
 using Framework.Utils;
 using Sirenix.Serialization;
 using System;
@@ -13,6 +14,7 @@ namespace Framework
 {
     public class Hotfix : MonoBehaviour
     {
+        //暂时保存存有所有文件信息的版本文件，最后写入
         private byte[] fileListData;
 
         /// <summary>

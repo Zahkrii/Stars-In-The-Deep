@@ -30,7 +30,7 @@ namespace Framework.Utils
             get
             {
                 // 如果是热更模式就从 persistentDataPath 加载（资源 Bundle 都会下载到这个目录）
-                if (Constant.AssetsLoadMode == AssetsLoadMode.HotUpdate)
+                if (Constant.AssetsLoadMode == AssetsLoadMode.Hotfix)
                     return ReadAndWritePath;
                 // Package Bundle 模式，从自己包里的 streamingAssetsPath（只读）加载
                 return ReadOnlyPath;

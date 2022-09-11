@@ -1,37 +1,37 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class UIBehaviour : LuaBehaviour
+namespace Framework
 {
-    //UI打开
-    private Action luaOnOpen;
-
-    //UI关闭
-    private Action luaOnClose;
-
-    public override void Init(string luaScript)
+    public class UIBehaviour : LuaBehaviour
     {
-        base.Init(luaScript);
-        scriptEnv.Get("OnOpen", out luaOnOpen);
-        scriptEnv.Get("OnClose", out luaOnClose);
-    }
+        //UI打开
+        private Action luaOnOpen;
 
-    public void OnOpen()
-    {
-        luaOnOpen?.Invoke();
-    }
+        //UI关闭
+        private Action luaOnClose;
 
-    public void OnClose()
-    {
-        luaOnClose?.Invoke();
-    }
+        public override void Init(string luaScript)
+        {
+            base.Init(luaScript);
+            scriptEnv.Get("OnOpen", out luaOnOpen);
+            scriptEnv.Get("OnClose", out luaOnClose);
+        }
 
-    protected override void Clear()
-    {
-        base.Clear();
-        luaOnOpen = null;
-        luaOnClose = null;
+        public void OnOpen()
+        {
+            luaOnOpen?.Invoke();
+        }
+
+        public void OnClose()
+        {
+            luaOnClose?.Invoke();
+        }
+
+        protected override void Clear()
+        {
+            base.Clear();
+            luaOnOpen = null;
+            luaOnClose = null;
+        }
     }
 }
