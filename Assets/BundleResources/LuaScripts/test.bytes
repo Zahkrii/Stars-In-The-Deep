@@ -1,4 +1,4 @@
-Manager = CS.Framework.Manager;
+Manager = CS.Framework.Managers.Manager;
 
 local group =
 {
