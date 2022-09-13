@@ -1,13 +1,22 @@
 Manager = CS.Framework.Managers.Manager;
+PathUtil = CS.Framework.Utils.PathUtil;
 
-local group =
+local ui_group =
 {
     "1st",
     "2nd",
     "3rd"
 }
 
-Manager.UIManager:SetUIGroup(group);
+local entity_group =
+{
+    "player",
+    "monster",
+    "npc"
+}
+
+Manager.UIManager:SetUIGroup(ui_group);
+Manager.EntityManager:SetEntityGroup(entity_group);
 
 function Test()
     print("Hello Lua");

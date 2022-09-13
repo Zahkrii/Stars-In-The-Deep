@@ -1,0 +1,21 @@
+function OnInit()
+    print("On00Init");
+end
+
+function OnActive()
+    print("On00Active");
+    Manager.SceneManager:LoadScene("test01", "Scene.Scene01");
+    --Manager.SceneManager:SetActive(self.SceneName);
+end
+
+function Inactive()
+    print("In00active");
+end
+
+function Load()
+    print("00Load");
+end
+
+function Unload()
+    print("00Unload");
+end

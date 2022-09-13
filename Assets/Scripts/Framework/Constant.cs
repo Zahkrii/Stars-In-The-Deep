@@ -27,7 +27,8 @@ namespace Framework
         Effect,
         Sprite,
         Scene,
-        Prefab
+        Prefab,
+        Model
     }
 
     public enum AssetsLoadMode

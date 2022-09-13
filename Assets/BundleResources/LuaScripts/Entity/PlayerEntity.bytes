@@ -1,0 +1,11 @@
+function OnInit()
+    print("OnInit");
+end
+
+function OnStart()
+    print("OnStart");
+end
+
+function OnHide()
+    print("OnHide");
+end

@@ -12,7 +12,7 @@ namespace Framework
         [MenuItem("Assets/Create/New Lua Script", false, 1)]
         public static void CreateLuaScript()
         {
-            string text = "function func()\n    print(\"lua\")\nend";
+            string text = "function func()\n\tprint(\"lua\")\nend";
             var tmp = Selection.GetFiltered<Object>(SelectionMode.Assets);
             foreach (var obj in tmp)
             {

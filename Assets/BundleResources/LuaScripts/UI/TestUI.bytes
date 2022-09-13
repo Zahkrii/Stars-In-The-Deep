@@ -1,15 +1,17 @@
 function OnInit()
-    print("OnInit");
+    print("OnUIInit");
 end
 
 function OnOpen()
-    print("OnOpen");
+    print("OnUIOpen");
+    Manager.SceneManager:LoadScene("test00", "Scene.Scene00");
+    --Manager.SceneManager:SetActive("test00");
 end
 
-function Update()
-    print("Update");
-end
+--[[ function Update()
+    print("UIUpdate");
+end ]]
 
 function OnClose()
-    print("OnClose");
+    print("OnUIClose");
 end

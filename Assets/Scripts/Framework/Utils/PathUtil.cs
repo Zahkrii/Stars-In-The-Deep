@@ -94,7 +94,12 @@ namespace Framework.Utils
 
         public static string GetScenePath(string name)
         {
-            return $"Assets/BundleResources/Scene/{name}.unity";
+            return $"Assets/BundleResources/Scenes/{name}.unity";
+        }
+
+        public static string GetModelPath(string name)
+        {
+            return $"Assets/BundleResources/Models/Prefabs/{name}.prefab";
         }
 
         public static string GetPrefabPath(string name)

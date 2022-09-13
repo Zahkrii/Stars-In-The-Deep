@@ -1,0 +1,20 @@
+function OnInit()
+    print("On01Init");
+end
+
+function OnActive()
+    print("On01Active");
+end
+
+function Inactive()
+    print("01Inactive");
+end
+
+function Load()
+    print("01Load");
+    Manager.EntityManager:ShowEntity("Cube", "player", "Entity.PlayerEntity");
+end
+
+function Unload()
+    print("01Unload");
+end

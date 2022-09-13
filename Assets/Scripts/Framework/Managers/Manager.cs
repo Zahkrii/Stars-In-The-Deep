@@ -11,6 +11,7 @@ namespace Framework.Managers
         private static LuaManager _luaManager;
         private static UIManager _uiManager;
         private static EntityManager _entityManager;
+        private static SceneManager _sceneManager;
 
         public static ResourceManager ResourceManager
         {
@@ -32,12 +33,18 @@ namespace Framework.Managers
             get { return _entityManager; }
         }
 
+        public static SceneManager SceneManager
+        {
+            get { return _sceneManager; }
+        }
+
         private void Awake()
         {
             _resourceManager = this.gameObject.AddComponent<ResourceManager>();
             _luaManager = this.gameObject.AddComponent<LuaManager>();
             _uiManager = this.gameObject.AddComponent<UIManager>();
             _entityManager = this.gameObject.AddComponent<EntityManager>();
+            _sceneManager = this.gameObject.AddComponent<SceneManager>();
         }
     }
 }

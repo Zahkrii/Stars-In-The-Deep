@@ -59,7 +59,7 @@ namespace Framework.Managers
                 return;
             }
             //如果不存在，加载资源并绑定脚本，调用Init，相当于Awake
-            Manager.ResourceManager.LoadAsset(name, AssetType.Prefab, (UnityEngine.Object obj) =>
+            Manager.ResourceManager.LoadAsset(name, AssetType.Model, (UnityEngine.Object obj) =>
             {
                 entity = Instantiate(obj) as GameObject;
 

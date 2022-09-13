@@ -44,7 +44,6 @@ namespace Framework.Managers
         /// <param name="action">回调</param>
         public void LoadAssetInEditorMode(string assetName, AssetType type, Action<UObject> action = null)
         {
-            Debug.Log("现在是编辑器资源加载模式");
             UObject obj = null;
             switch (type)
             {
@@ -68,11 +67,15 @@ namespace Framework.Managers
                     obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetPrefabPath(assetName), typeof(UObject));
                     break;
 
+                case AssetType.Model:
+                    obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetModelPath(assetName), typeof(UObject));
+                    break;
+
                 default:
                     break;
             }
             if (obj == null)
-                Debug.LogError($"资源不存在：{assetName}");
+                Debug.LogError($"编辑器资源加载模式,资源不存在：{assetName}");
             action?.Invoke(obj);
         }
 
@@ -104,6 +107,10 @@ namespace Framework.Managers
 
                     case AssetType.Scene:
                         StartCoroutine(LoadBundleAsync(PathUtil.GetScenePath(assetName), action));
+                        break;
+
+                    case AssetType.Model:
+                        StartCoroutine(LoadBundleAsync(PathUtil.GetModelPath(assetName), action));
                         break;
 
                     default:
@@ -179,14 +186,18 @@ namespace Framework.Managers
             AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(bundlePath);
             yield return request;
 
+            //场景资源并不需要 bundleRequest
+            if (assetName.EndsWith(".unity"))
+            {
+                action?.Invoke(null);
+                yield break;
+            }
+
             AssetBundleRequest bundleRequest = request.assetBundle.LoadAssetAsync(assetName);
             yield return bundleRequest;
 
             Debug.Log("现在是 Bundle 资源加载模式");
-            //if (action != null && bundleRequest != null)
-            //{
-            //    action.Invoke(bundleRequest.asset);
-            //}
+
             action?.Invoke(bundleRequest?.asset);
         }
     }
