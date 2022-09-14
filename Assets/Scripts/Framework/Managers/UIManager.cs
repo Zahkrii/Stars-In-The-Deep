@@ -30,7 +30,7 @@ namespace Framework.Managers
             foreach (string item in group)
             {
                 GameObject go = new GameObject("Group - " + item);
-                go.transform.SetParent(root, false);
+                go.transform.SetParent(root, true);
                 UIGroups.Add(item, go.transform);
             }
         }

@@ -20,7 +20,7 @@ Manager.EntityManager:SetEntityGroup(entity_group);
 
 function Test()
     print("Hello Lua");
-    Manager.UIManager:OpenUI("Image", "1st", "UI.TestUI");
+    Manager.UIManager:OpenUI("AudioTest", "1st", "UI.AudioTest");
 end
 
 --Test();

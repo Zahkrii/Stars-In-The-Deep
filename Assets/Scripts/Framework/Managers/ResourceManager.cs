@@ -14,6 +14,9 @@ namespace Framework.Managers
         // 资源名与包信息一一对应的字典
         private Dictionary<string, BundleInfo> bundleInfoDic = new Dictionary<string, BundleInfo>();
 
+        //存储已加载的bundle信息
+        private Dictionary<string, AssetBundle> assetBundleDic = new Dictionary<string, AssetBundle>();
+
         /// <summary>
         /// 解析版本文件（文件清单）
         /// </summary>
@@ -35,6 +38,16 @@ namespace Framework.Managers
             }
         }
 
+        private AssetBundle GetBundle(string name)
+        {
+            AssetBundle bundle = null;
+            if (assetBundleDic.TryGetValue(name, out bundle))
+            {
+                return bundle;
+            }
+            return null;
+        }
+
 #if UNITY_EDITOR
 
         /// <summary>
@@ -42,7 +55,7 @@ namespace Framework.Managers
         /// </summary>
         /// <param name="assetName">资源名</param>
         /// <param name="action">回调</param>
-        public void LoadAssetInEditorMode(string assetName, AssetType type, Action<UObject> action = null)
+        private void LoadAssetInEditorMode(string assetName, AssetType type, Action<UObject> action = null, string extension = null)
         {
             UObject obj = null;
             switch (type)
@@ -71,11 +84,23 @@ namespace Framework.Managers
                     obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetModelPath(assetName), typeof(UObject));
                     break;
 
+                case AssetType.Music:
+                    obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetMusicPath(assetName, extension), typeof(UObject));
+                    break;
+
+                case AssetType.Sound:
+                    obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetSoundPath(assetName, extension), typeof(UObject));
+                    break;
+
+                case AssetType.Sprite:
+                    obj = UnityEditor.AssetDatabase.LoadAssetAtPath(PathUtil.GetSpritePath(assetName, extension), typeof(UObject));
+                    break;
+
                 default:
                     break;
             }
             if (obj == null)
-                Debug.LogError($"编辑器资源加载模式,资源不存在：{assetName}");
+                Debug.LogError($"编辑器资源加载模式，资源不存在：{assetName}");
             action?.Invoke(obj);
         }
 
@@ -98,7 +123,7 @@ namespace Framework.Managers
                         break;
 
                     case AssetType.Lua:
-                        StartCoroutine(LoadBundleAsync(assetName, action));
+                        StartCoroutine(LoadBundleAsync(PathUtil.GetLuaPath(assetName), action));
                         break;
 
                     case AssetType.Effect:
@@ -159,7 +184,7 @@ namespace Framework.Managers
             else
             {
                 // 加载资源（编辑器模式）
-                LoadAssetInEditorMode(assetName, type, action);
+                LoadAssetInEditorMode(assetName, type, action, extension);
             }
 #endif
         }
@@ -175,16 +200,24 @@ namespace Framework.Managers
             string bundleName = bundleInfoDic[assetName].BundleName;
             string bundlePath = Path.Combine(PathUtil.BundleResourcesPath, bundleName);
             List<string> dependencies = bundleInfoDic[assetName].Dependency;
-            if (dependencies != null && dependencies.Count > 0)
-            {
-                foreach (string dependency in dependencies)
-                {
-                    yield return LoadBundleAsync(dependency);
-                }
-            }
 
-            AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(bundlePath);
-            yield return request;
+            AssetBundle bundle = GetBundle(bundleName);
+            if (bundle == null)
+            {
+                if (dependencies != null && dependencies.Count > 0)
+                {
+                    foreach (string dependency in dependencies)
+                    {
+                        yield return LoadBundleAsync(dependency);
+                    }
+                }
+
+                AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(bundlePath);
+                yield return request;
+
+                bundle = request.assetBundle;
+                assetBundleDic.Add(bundleName, bundle);
+            }
 
             //场景资源并不需要 bundleRequest
             if (assetName.EndsWith(".unity"))
@@ -193,7 +226,7 @@ namespace Framework.Managers
                 yield break;
             }
 
-            AssetBundleRequest bundleRequest = request.assetBundle.LoadAssetAsync(assetName);
+            AssetBundleRequest bundleRequest = bundle.LoadAssetAsync(assetName);
             yield return bundleRequest;
 
             Debug.Log("现在是 Bundle 资源加载模式");
