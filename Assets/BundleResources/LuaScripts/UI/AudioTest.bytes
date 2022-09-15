@@ -4,6 +4,7 @@ end
 
 function OnOpen()
     print("OnAudioTestOpen");
+
     local btn_play = self.transform:Find("MusicPanel/PlayButton"):GetComponent("Button");
     local btn_pause = self.transform:Find("MusicPanel/PauseButton"):GetComponent("Button");
     local btn_unPause = self.transform:Find("MusicPanel/UnPauseButton"):GetComponent("Button");
@@ -14,38 +15,40 @@ function OnOpen()
     local slider_music = self.transform:Find("VolumePanel/MusicSlider"):GetComponent("Slider");
     local slider_sound = self.transform:Find("VolumePanel/SoundSlider"):GetComponent("Slider");
 
-    btn_play.onClick:AddListener(
+    --也可以写成 btn_play.onClickEvent(btn_play,
+    --用:而不是.的作用就是将对象传递作为方法第一个参数
+    btn_play:OnClickEvent(
         function()
             Manager.AudioManager:PlayMusic("LOOP_Celestial Search", "ogg");
         end
     );
-    btn_pause.onClick:AddListener(
+    btn_pause:OnClickEvent(
         function()
             Manager.AudioManager:PauseMusic();
         end
     );
-    btn_unPause.onClick:AddListener(
+    btn_unPause:OnClickEvent(
         function()
             Manager.AudioManager:UnPauseMusic();
         end
     );
-    btn_stop.onClick:AddListener(
+    btn_stop:OnClickEvent(
         function()
             Manager.AudioManager:StopMusic();
         end
     );
-    btn_sound.onClick:AddListener(
+    btn_sound:OnClickEvent(
         function()
             Manager.AudioManager:PlaySound("Heavy Artillery Automatic Weapon - Shoot Single 01", "ogg");
         end
     );
 
-    slider_music.onValueChanged:AddListener(
+    slider_music:OnValueChangedEvent(
         function(volume)
             Manager.AudioManager:SetMusicVolume(volume);
         end
     );
-    slider_sound.onValueChanged:AddListener(
+    slider_sound:OnValueChangedEvent(
         function(volume)
             Manager.AudioManager:SetSoundVolume(volume);
         end

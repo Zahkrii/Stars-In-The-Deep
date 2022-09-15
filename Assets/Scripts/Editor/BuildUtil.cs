@@ -11,7 +11,7 @@ using Sirenix.Serialization;
 
 namespace Framework
 {
-    public class BuildTool : Editor
+    public class BuildUtil : Editor
     {
         [MenuItem("Tools/Build Bundle for Windows")]
         public static void BundleBuildWindows()

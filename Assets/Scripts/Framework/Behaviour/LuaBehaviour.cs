@@ -17,7 +17,6 @@ namespace Framework
 
         private Action luaOnInit;
 
-        //private Action luaStart;
         private Action luaUpdate;
 
         private Action luaOnDestroy;

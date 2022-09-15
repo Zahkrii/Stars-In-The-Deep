@@ -13,6 +13,7 @@ namespace Framework.Managers
         private static EntityManager _entityManager;
         private static SceneManager _sceneManager;
         private static AudioManager _audioManager;
+        private static EventManager _eventManager;
 
         public static ResourceManager ResourceManager
         {
@@ -44,6 +45,11 @@ namespace Framework.Managers
             get { return _audioManager; }
         }
 
+        public static EventManager EventManager
+        {
+            get { return _eventManager; }
+        }
+
         private void Awake()
         {
             _resourceManager = this.gameObject.AddComponent<ResourceManager>();
@@ -52,6 +58,7 @@ namespace Framework.Managers
             _entityManager = this.gameObject.AddComponent<EntityManager>();
             _sceneManager = this.gameObject.AddComponent<SceneManager>();
             _audioManager = this.gameObject.AddComponent<AudioManager>();
+            _eventManager = this.gameObject.AddComponent<EventManager>();
         }
     }
 }

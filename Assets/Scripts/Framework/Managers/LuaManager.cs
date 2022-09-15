@@ -19,17 +19,18 @@ namespace Framework.Managers
         public LuaEnv LuaEnvironment;
 
         // 初始化完成，回调
-        private Action initComplete;
+        //private Action initComplete;
 
         /// <summary>
         /// 初始化，加载脚本
         /// </summary>
-        public void Init(Action complete)
+        public void Init()//public void Init(Action complete)
         {
-            initComplete += complete;
+            //initComplete += complete;
             luaScriptCache = new Dictionary<string, byte[]>();
 
             LuaEnvironment = new LuaEnv();
+            LuaEnvironment.DoString("util =  require('xlua.util')");
             LuaEnvironment.AddLoader(LuaLoader);
 
             if (Constant.AssetsLoadMode == AssetsLoadMode.PackageBundle || Constant.AssetsLoadMode == AssetsLoadMode.Hotfix)
@@ -109,7 +110,8 @@ namespace Framework.Managers
                     AddLuaScript(name, (obj as TextAsset).bytes);
                     if (luaScriptCache.Count >= LuaNames.Count) //加载完成
                     {
-                        initComplete?.Invoke();
+                        Manager.EventManager.Execute(10000);
+                        //initComplete?.Invoke();
                         LuaNames.Clear();
                         LuaNames = null;
                     }
@@ -137,7 +139,8 @@ namespace Framework.Managers
                 byte[] file = File.ReadAllBytes(fileName);
                 AddLuaScript(PathUtil.GetUnityRelativePath(fileName), file);
             }
-            initComplete?.Invoke();
+            //initComplete?.Invoke();
+            Manager.EventManager.Execute(10000);
         }
 
 #endif
