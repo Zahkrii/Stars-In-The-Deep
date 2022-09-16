@@ -233,5 +233,15 @@ namespace Framework.Managers
 
             action?.Invoke(bundleRequest?.asset);
         }
+
+        /// <summary>
+        /// п╤ть bundle
+        /// </summary>
+        /// <param name="name"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void UnloadBundle(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

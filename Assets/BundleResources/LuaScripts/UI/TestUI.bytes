@@ -1,17 +1,79 @@
 function OnInit()
-    print("OnUIInit");
+    print("OnAudioTestInit");
 end
 
 function OnOpen()
-    print("OnUIOpen");
-    Manager.SceneManager:LoadScene("test00", "Scene.Scene00");
-    --Manager.SceneManager:SetActive("test00");
+    print("OnAudioTestOpen");
+
+    --Manager.SceneManager:LoadScene("test00", "Scene.Scene00");
+
+    local btn_play = self.transform:Find("MusicPanel/PlayButton"):GetComponent("Button");
+    local btn_pause = self.transform:Find("MusicPanel/PauseButton"):GetComponent("Button");
+    local btn_unPause = self.transform:Find("MusicPanel/UnPauseButton"):GetComponent("Button");
+    local btn_stop = self.transform:Find("MusicPanel/StopButton"):GetComponent("Button");
+
+    local btn_sound = self.transform:Find("SoundPanel/PlayButton"):GetComponent("Button");
+
+    local slider_music = self.transform:Find("VolumePanel/MusicSlider"):GetComponent("Slider");
+    local slider_sound = self.transform:Find("VolumePanel/SoundSlider"):GetComponent("Slider");
+
+    local btn_open = self.transform:Find("PoolPanel/AddButton"):GetComponent("Button");
+    local btn_recycle = self.transform:Find("PoolPanel/RecycleButton"):GetComponent("Button");
+
+    btn_open:OnClickEvent(
+        function()
+            Manager.UIManager:OpenUI("TestUI", "1st", "UI.TestUI");
+        end
+    )
+
+    btn_recycle:OnClickEvent(
+        function()
+            self:OnClose();
+        end
+    )
+
+    --也可以写成 btn_play.onClickEvent(btn_play,
+    --用:而不是.的作用就是将对象传递作为方法第一个参数
+    btn_play:OnClickEvent(
+        function()
+            Manager.AudioManager:PlayMusic("LOOP_Celestial Search", "ogg");
+        end
+    );
+    btn_pause:OnClickEvent(
+        function()
+            Manager.AudioManager:PauseMusic();
+        end
+    );
+    btn_unPause:OnClickEvent(
+        function()
+            Manager.AudioManager:UnPauseMusic();
+        end
+    );
+    btn_stop:OnClickEvent(
+        function()
+            Manager.AudioManager:StopMusic();
+        end
+    );
+    btn_sound:OnClickEvent(
+        function()
+            Manager.AudioManager:PlaySound("Heavy Artillery Automatic Weapon - Shoot Single 01", "ogg");
+        end
+    );
+
+    slider_music:OnValueChangedEvent(
+        function(volume)
+            Manager.AudioManager:SetMusicVolume(volume);
+        end
+    );
+    slider_sound:OnValueChangedEvent(
+        function(volume)
+            Manager.AudioManager:SetSoundVolume(volume);
+        end
+    );
+    slider_music.value = 1;
+    slider_sound.value = 1;
 end
 
---[[ function Update()
-    print("UIUpdate");
-end ]]
-
 function OnClose()
-    print("OnUIClose");
+    print("OnAudioTestClose");
 end

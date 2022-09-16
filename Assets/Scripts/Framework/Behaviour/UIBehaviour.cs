@@ -1,9 +1,12 @@
+using Framework.Managers;
 using System;
 
 namespace Framework
 {
     public class UIBehaviour : LuaBehaviour
     {
+        public string AssetName;
+
         //UI´ò¿ª
         private Action luaOnOpen;
 
@@ -25,6 +28,7 @@ namespace Framework
         public void OnClose()
         {
             luaOnClose?.Invoke();
+            Manager.PoolManager.Recycle("UI", AssetName, this.gameObject);
         }
 
         protected override void Clear()

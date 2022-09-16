@@ -23,6 +23,9 @@ namespace Framework
             Manager.LuaManager.RequireLua("test");
             XLua.LuaFunction function = Manager.LuaManager.LuaEnvironment.Global.Get<XLua.LuaFunction>("Test");
             function.Call();
+
+            Manager.PoolManager.Create<GameObjectPool>("UI", 10);
+            Manager.PoolManager.Create<AssetPool>("AssetBundle", 300);
         }
 
         private void OnApplicationQuit()
