@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEditor;
 using Framework.Utils;
 using System.Linq;
-using Framework;
 using System;
 using Sirenix.Serialization;
+using Framework.Managers;
 
 namespace Framework
 {
@@ -87,14 +87,14 @@ namespace Framework
             List<string> dependencies = new List<string>();
             string[] files = AssetDatabase.GetDependencies(curFile);
             // 去除脚本文件以及资源本身，剩下的才是依赖文件，如纹理，Sprite等
-            dependencies = files.Where(file => !file.EndsWith(".cs") && !file.Equals(curFile)).ToList();
+            dependencies = files.Where(file => !file.EndsWith(".cs") && !file.Equals(curFile) && !file.StartsWith("Packages")).ToList();
             return dependencies;
         }
 
         private static void SaveToFile(object data)
         {
             string path = Path.Combine(PathUtil.BundleOutputPath, Constant.FileListName);
-            byte[] bytes = Sirenix.Serialization.SerializationUtility.SerializeValue(data, DataFormat.Binary);
+            byte[] bytes = Sirenix.Serialization.SerializationUtility.SerializeValue(data, DataFormat.JSON);
 
             try
             {

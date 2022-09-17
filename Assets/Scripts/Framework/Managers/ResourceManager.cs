@@ -9,13 +9,47 @@ using UObject = UnityEngine.Object;
 
 namespace Framework.Managers
 {
+    [Serializable]
+    public class BundleInfo//包信息
+    {
+        //资源名
+        public string AssetName;
+
+        //包名
+        public string BundleName;
+
+        //依赖文件列表
+        public List<string> Dependency;
+
+        public BundleInfo(string assetName, string bundleName, List<string> dependency)
+        {
+            AssetName = assetName;
+            BundleName = bundleName;
+            Dependency = dependency;
+        }
+    }
+
+    internal class BundleData//包数据
+    {
+        public AssetBundle Bundle;
+
+        //引用计数
+        public int RefCount;
+
+        public BundleData(AssetBundle bundle)
+        {
+            Bundle = bundle;
+            RefCount = 1;
+        }
+    }
+
     public class ResourceManager : MonoBehaviour
     {
         // 资源名与包信息一一对应的字典
         private Dictionary<string, BundleInfo> bundleInfoDic = new Dictionary<string, BundleInfo>();
 
         //存储已加载的bundle信息
-        private Dictionary<string, AssetBundle> assetBundleDic = new Dictionary<string, AssetBundle>();
+        private Dictionary<string, BundleData> assetBundleDic = new Dictionary<string, BundleData>();
 
         /// <summary>
         /// 解析版本文件（文件清单）
@@ -26,7 +60,7 @@ namespace Framework.Managers
 
             byte[] bytes = File.ReadAllBytes(path);
 
-            List<BundleInfo> bundleInfolist = Sirenix.Serialization.SerializationUtility.DeserializeValue<List<BundleInfo>>(bytes, DataFormat.Binary);
+            List<BundleInfo> bundleInfolist = Sirenix.Serialization.SerializationUtility.DeserializeValue<List<BundleInfo>>(bytes, DataFormat.JSON);
 
             foreach (BundleInfo info in bundleInfolist)
             {
@@ -38,11 +72,12 @@ namespace Framework.Managers
             }
         }
 
-        private AssetBundle GetBundle(string name)
+        private BundleData GetBundle(string name)
         {
-            AssetBundle bundle = null;
+            BundleData bundle = null;
             if (assetBundleDic.TryGetValue(name, out bundle))
             {
+                bundle.RefCount++;
                 return bundle;
             }
             return null;
@@ -123,7 +158,7 @@ namespace Framework.Managers
                         break;
 
                     case AssetType.Lua:
-                        StartCoroutine(LoadBundleAsync(PathUtil.GetLuaPath(assetName), action));
+                        StartCoroutine(LoadBundleAsync(assetName, action));
                         break;
 
                     case AssetType.Effect:
@@ -201,22 +236,31 @@ namespace Framework.Managers
             string bundlePath = Path.Combine(PathUtil.BundleResourcesPath, bundleName);
             List<string> dependencies = bundleInfoDic[assetName].Dependency;
 
-            AssetBundle bundle = GetBundle(bundleName);
+            BundleData bundle = GetBundle(bundleName);
             if (bundle == null)
             {
-                if (dependencies != null && dependencies.Count > 0)
+                UObject obj = Manager.PoolManager.Spwan("AssetBundle", bundleName);
+                if (obj != null)
                 {
-                    foreach (string dependency in dependencies)
-                    {
-                        yield return LoadBundleAsync(dependency);
-                    }
+                    AssetBundle assetBundle = obj as AssetBundle;
+                    bundle = new BundleData(assetBundle);
+                }
+                else
+                {
+                    AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(bundlePath);
+                    yield return request;
+                    bundle = new BundleData(request.assetBundle);
                 }
 
-                AssetBundleCreateRequest request = AssetBundle.LoadFromFileAsync(bundlePath);
-                yield return request;
-
-                bundle = request.assetBundle;
                 assetBundleDic.Add(bundleName, bundle);
+            }
+
+            if (dependencies != null && dependencies.Count > 0)
+            {
+                foreach (string dependency in dependencies)
+                {
+                    yield return LoadBundleAsync(dependency);
+                }
             }
 
             //场景资源并不需要 bundleRequest
@@ -226,7 +270,13 @@ namespace Framework.Managers
                 yield break;
             }
 
-            AssetBundleRequest bundleRequest = bundle.LoadAssetAsync(assetName);
+            //当加载依赖资源时，没有回调
+            if (action == null)
+            {
+                yield break;
+            }
+
+            AssetBundleRequest bundleRequest = bundle.Bundle.LoadAssetAsync(assetName);
             yield return bundleRequest;
 
             Debug.Log("现在是 Bundle 资源加载模式");
@@ -239,9 +289,45 @@ namespace Framework.Managers
         /// </summary>
         /// <param name="name"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void UnloadBundle(string name)
+        public void UnloadBundle(UObject obj)
         {
-            throw new NotImplementedException();
+            AssetBundle ab = obj as AssetBundle;
+            ab.Unload(true);
+        }
+
+        public void MinusBundleRefCount(string assetName)
+        {
+            string bundleName = bundleInfoDic[assetName].BundleName;
+
+            MinusOneBundleRefCount(bundleName);
+
+            List<string> dependencies = bundleInfoDic[assetName].Dependency;
+            if (dependencies != null && dependencies.Count > 0)
+            {
+                foreach (string dependency in dependencies)
+                {
+                    string name = bundleInfoDic[dependency].BundleName;
+                    MinusOneBundleRefCount(name);
+                }
+            }
+        }
+
+        private void MinusOneBundleRefCount(string bundleName)
+        {
+            if (assetBundleDic.TryGetValue(bundleName, out BundleData bundle))
+            {
+                if (bundle.RefCount > 0)
+                {
+                    bundle.RefCount--;
+                    Debug.Log($"bundle: {bundleName} 引用计数：{bundle.RefCount}");
+                }
+                if (bundle.RefCount <= 0)
+                {
+                    Debug.Log("存入对象池：" + bundleName);
+                    Manager.PoolManager.Recycle("AssetBundle", bundleName, bundle.Bundle);
+                    assetBundleDic.Remove(bundleName);
+                }
+            }
         }
     }
 }

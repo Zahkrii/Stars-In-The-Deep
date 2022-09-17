@@ -24,8 +24,8 @@ namespace Framework
             {
                 if (System.DateTime.Now.Ticks - po.LastUsedTime.Ticks >= releaseTime * 10000000)
                 {
-                    Debug.Log("AssetPool Release Time: " + System.DateTime.Now);
-                    Manager.ResourceManager.UnloadBundle(name);
+                    Debug.Log($"AssetPool: Bundle:{po.Name} Release Time: {System.DateTime.Now}");
+                    Manager.ResourceManager.UnloadBundle(po.Object);
                     pool.Remove(po);
                     //递归调用，pool 中对象被移除后 foreach 循环出错，因此递归调用解决
                     Release();

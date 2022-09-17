@@ -11,4 +11,13 @@ public static class XLuaConfig
     {
         typeof(UnityEngine.Events.UnityAction<float>),
     };
+
+    //ºÚÃûµ¥
+    [BlackList]
+    public static List<List<string>> BlackList = new List<List<string>>()
+    {
+        new List<string>(){"UnityEngine.Light", "shadowRadius"},
+        new List<string>(){"UnityEngine.Light", "SetLightDirty"},
+        new List<string>(){"UnityEngine.Light", "shadowAngle"},
+    };
 }

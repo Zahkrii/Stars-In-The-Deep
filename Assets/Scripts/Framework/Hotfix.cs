@@ -64,7 +64,7 @@ namespace Framework
         /// <returns>下载文件信息列表</returns>
         private List<DownloadFileInfo> GetFileList(byte[] fileData, string path)
         {
-            List<BundleInfo> bundleInfolist = Sirenix.Serialization.SerializationUtility.DeserializeValue<List<BundleInfo>>(fileData, DataFormat.Binary);
+            List<BundleInfo> bundleInfolist = Sirenix.Serialization.SerializationUtility.DeserializeValue<List<BundleInfo>>(fileData, DataFormat.JSON);
             List<DownloadFileInfo> list = new List<DownloadFileInfo>();
             foreach (BundleInfo info in bundleInfolist)
             {

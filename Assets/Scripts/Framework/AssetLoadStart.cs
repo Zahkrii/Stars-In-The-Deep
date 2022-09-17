@@ -25,7 +25,7 @@ namespace Framework
             function.Call();
 
             Manager.PoolManager.Create<GameObjectPool>("UI", 10);
-            Manager.PoolManager.Create<AssetPool>("AssetBundle", 300);
+            Manager.PoolManager.Create<AssetPool>("AssetBundle", 10);
         }
 
         private void OnApplicationQuit()

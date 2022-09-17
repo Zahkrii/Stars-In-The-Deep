@@ -30,7 +30,7 @@ namespace Framework.Managers
             luaScriptCache = new Dictionary<string, byte[]>();
 
             LuaEnvironment = new LuaEnv();
-            LuaEnvironment.DoString("util =  require('xlua.util')");
+            //LuaEnvironment.DoString("util =  require('xlua.util')");
             LuaEnvironment.AddLoader(LuaLoader);
 
             if (Constant.AssetsLoadMode == AssetsLoadMode.PackageBundle || Constant.AssetsLoadMode == AssetsLoadMode.Hotfix)
